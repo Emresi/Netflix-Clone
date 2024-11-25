@@ -1,0 +1,42 @@
+name: netflix_clone
+description: "I am glad to find a chance to present my clone project of a mobile
+  app named Netflix.~Emrehan Sinan Kılınç"
+version: 0.1.0
+
+environment:
+  sdk: ^3.5.4
+
+dependencies:
+  cached_network_image: ^3.3.0
+  equatable: ^2.0.5
+  flutter:
+    sdk: flutter
+  flutter_bloc: ^8.1.6
+  json_annotation: ^4.9.0
+  kartal: ^4.1.0
+  palette_generator: ^0.3.3+5
+  provider: ^6.1.2
+
+dev_dependencies:
+  build_runner: ^2.4.7
+  flutter_launcher_icons: ^0.14.1
+  flutter_test:
+    sdk: flutter
+  isar_generator: ^3.1.0+1
+  json_serializable: ^6.8.0
+  very_good_analysis: ^6.0.0
+
+flutter_launcher_icons:
+  android: "ic_launcher"
+  ios: true
+  image_path: "assets/icons/icon.png"
+  min_sdk_android: 24
+  adaptive_icon_background: "#0xFF000000"
+  remove_alpha_ios: true
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/json/movies.json
+    - assets/images/
+    - assets/icons/
