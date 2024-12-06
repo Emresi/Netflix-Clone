@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "970197196002",
+    "project_id": "esco-netflix",
+    "storage_bucket": "esco-netflix.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:970197196002:android:0f41bb9d763ac7c67292bb",
+        "android_client_info": {
+          "package_name": "com.esco.netflix"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWmMhRrDsLCuIIuxqaqcFKmEJZrg0iZoc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

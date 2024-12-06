@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:netflix_clone/product/models/movie.dart';
+import 'package:netflix_clone/product/models/movie_model.dart';
 
 /// Movie Category Widget
 class MovieCategory extends StatelessWidget {
   const MovieCategory({required this.title, required this.movies, super.key});
   final String title;
-  final List<Movie> movies;
+  final List<MovieModel> movies;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +31,7 @@ class MovieCategory extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(3),
                   child: CachedNetworkImage(
-                    imageUrl: movies[index].posterUrl,
+                    imageUrl: movies[index].posterImage,
                     width: 120,
                     fit: BoxFit.cover,
                     placeholder: (context, url) => Container(color: Colors.grey.withOpacity(.1)),
