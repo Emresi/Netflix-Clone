@@ -1,84 +1,81 @@
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/core/provider/auth_provider.dart';
+import 'package:netflix_clone/product/constants/locale_keys.dart';
+import 'package:netflix_clone/product/widgets/auth/auth_button.dart';
+import 'package:netflix_clone/product/widgets/auth/auth_form_field.dart';
+import 'package:netflix_clone/product/widgets/auth/helpers.dart';
+import 'package:netflix_clone/product/widgets/sized_20.dart';
 import 'package:provider/provider.dart';
 
 class RegisterView extends StatelessWidget {
-  RegisterView({super.key});
-
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  const RegisterView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final authProvider = context.watch<AuthProvider>();
+    final emailController = TextEditingController();
+    final passwordController = TextEditingController();
+    final formKey = GlobalKey<FormState>();
 
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: 80),
-            Text(
-              'Sign Up',
-              style: Theme.of(context).textTheme.displayLarge,
-            ),
-            const SizedBox(height: 40),
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(hintText: 'Email'),
-            ),
-            const SizedBox(height: 20),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(hintText: 'Password'),
-              obscureText: true,
-            ),
-            const SizedBox(height: 40),
-            if (authProvider.isLoading)
-              const Center(child: CircularProgressIndicator())
-            else
-              Column(
-                children: [
-                  ElevatedButton(
-                    onPressed: () {
-                      authProvider.register(
-                        _emailController.text.trim(),
-                        _passwordController.text.trim(),
-                      );
-                    },
-                    child: const Center(child: Text('Sign Up')),
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 80),
+        child: Consumer<AuthProvider>(
+          builder: (context, authProvider, child) {
+            buildMessageSnackbar(context, authProvider);
+            return Form(
+              key: formKey,
+              child: authFormBuilder(
+                title: LocaleKeys.kSignUp,
+                fields: [
+                  AuthFormField(
+                    controller: emailController,
+                    hintText: LocaleKeys.kEmail,
+                    isEmail: true,
                   ),
-                  const SizedBox(height: 10),
-                  TextButton(
-                    onPressed: authProvider.resendVerificationEmail,
-                    child: const Text('Resend Verification Email', style: TextStyle(color: Colors.redAccent)),
+                  const Sized20(),
+                  AuthFormField(
+                    controller: passwordController,
+                    hintText: LocaleKeys.kPwd,
+                  ),
+                ],
+                actions: [
+                  AuthButton(
+                    label: LocaleKeys.kSignUp,
+                    emailController: emailController,
+                    passwordController: passwordController,
+                    formKey: formKey,
+                    isLogin: false,
+                  ),
+                  Center(
+                    child: TextButton(
+                      onPressed: context.read<AuthProvider>().resendVerificationEmail,
+                      child: const Text(
+                        LocaleKeys.kReVerify,
+                        style: TextStyle(color: Colors.red),
+                      ),
+                    ),
+                  ),
+                  const Sized20(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        LocaleKeys.kHaveAccount,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      TextButton(
+                        onPressed: () => Navigator.pop(context),
+                        child: const Text(
+                          LocaleKeys.kSignIn,
+                          style: TextStyle(color: Colors.red),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            const SizedBox(height: 20),
-            if (authProvider.message != null)
-              Center(
-                child: Text(
-                  authProvider.message!,
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.redAccent),
-                ),
-              ),
-            const SizedBox(height: 20),
-            Center(
-              child: Text(
-                'Already have an account?',
-                style: Theme.of(context).textTheme.bodyMedium,
-              ),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Sign In', style: TextStyle(color: Colors.redAccent)),
-            ),
-          ],
+            );
+          },
         ),
       ),
     );

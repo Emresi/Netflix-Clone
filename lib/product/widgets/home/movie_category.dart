@@ -1,6 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:netflix_clone/product/models/movie_model.dart';
+import 'package:netflix_clone/product/widgets/movie_card.dart';
 
 /// Movie Category Widget
 class MovieCategory extends StatelessWidget {
@@ -26,19 +26,8 @@ class MovieCategory extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             itemCount: movies.length,
             itemBuilder: (context, index) {
-              return Padding(
-                padding: const EdgeInsets.all(8),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(3),
-                  child: CachedNetworkImage(
-                    imageUrl: movies[index].posterImage,
-                    width: 120,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) => Container(color: Colors.grey.withOpacity(.1)),
-                    errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
-                  ),
-                ),
-              );
+              final movie = movies[index];
+              return MovieCard(movie: movie);
             },
           ),
         ),

@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:netflix_clone/product/constants/locale_keys.dart';
 import 'package:netflix_clone/product/enums/categories.dart';
 import 'package:netflix_clone/product/models/movie_model.dart';
+import 'package:netflix_clone/view/home/movie_detail_view.dart';
 
 class HeroSection extends StatefulWidget {
   const HeroSection({required this.featuredMovie, super.key});
@@ -24,82 +26,95 @@ class HeroSectionState extends State<HeroSection> {
   Widget build(BuildContext context) {
     final buttonShape = RoundedRectangleBorder(borderRadius: BorderRadius.circular(3));
 
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.white),
-        borderRadius: BorderRadius.circular(13),
+    return GestureDetector(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute<Widget>(
+          builder: (context) => MovieDetailView(
+            movie: widget.featuredMovie,
+          ),
+        ),
       ),
-      child: Stack(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(13),
-            child: CachedNetworkImage(
-              imageUrl: widget.featuredMovie.posterImage,
-              width: double.infinity,
-              height: 500,
-              fit: BoxFit.cover,
-              placeholder: (context, url) => Container(color: Colors.transparent),
-              errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
+      child: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.white),
+          borderRadius: BorderRadius.circular(13),
+        ),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(13),
+              child: CachedNetworkImage(
+                imageUrl: widget.featuredMovie.posterImage,
+                width: double.infinity,
+                height: 500,
+                fit: BoxFit.cover,
+                placeholder: (context, url) => Container(color: Colors.transparent),
+                errorWidget: (context, url, error) => const Icon(Icons.error, color: Colors.white),
+              ),
             ),
-          ),
-          Positioned(
-            bottom: 10,
-            left: 20,
-            right: 20,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  widget.featuredMovie.title,
-                  style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
-                ),
-                const _CategoryTextList(
-                  genre: '',
-                ),
-                const SizedBox(height: 10),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.white,
-                          shape: buttonShape,
-                        ),
-                        child: const Row(
-                          children: [
-                            Icon(Icons.play_arrow, color: Colors.black),
-                            SizedBox(width: 5),
-                            Text('Oynat', style: TextStyle(color: Colors.black)),
-                          ],
+            Positioned(
+              bottom: 10,
+              left: 20,
+              right: 20,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.featuredMovie.title,
+                    style: const TextStyle(color: Colors.white, fontSize: 24, fontWeight: FontWeight.bold),
+                  ),
+                  const _CategoryTextList(
+                    genre: '',
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Flexible(
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            backgroundColor: Colors.white,
+                            shape: buttonShape,
+                          ),
+                          child: const Row(
+                            children: [
+                              SizedBox(width: 5),
+                              Icon(Icons.play_arrow, color: Colors.black),
+                              SizedBox(width: 5),
+                              Text('Oynat', style: TextStyle(color: Colors.black)),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 33),
-                    Flexible(
-                      child: ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey.withOpacity(0.7),
-                          shape: buttonShape,
-                        ),
-                        child: const Row(
-                          children: [
-                            Icon(Icons.add_rounded, color: Colors.white),
-                            SizedBox(width: 5),
-                            Text('Listem', style: TextStyle(color: Colors.white)),
-                          ],
+                      const SizedBox(width: 33),
+                      Flexible(
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.zero,
+                            backgroundColor: Colors.grey.withOpacity(0.7),
+                            shape: buttonShape,
+                          ),
+                          child: const Row(
+                            children: [
+                              SizedBox(width: 5),
+                              Icon(Icons.add_rounded, color: Colors.white),
+                              SizedBox(width: 5),
+                              Text(LocaleKeys.kMyList, style: TextStyle(color: Colors.white)),
+                            ],
+                          ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

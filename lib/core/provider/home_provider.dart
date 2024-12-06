@@ -5,9 +5,10 @@ import 'package:palette_generator/palette_generator.dart';
 
 class HomeProvider extends ChangeNotifier {
   late List<MovieModel> trendingMovies;
-  late List<MovieModel> popularMovies;
+  List<MovieModel> popularMovies = [];
   Map<String, List<MovieModel>> categoryLists = {};
   late PaletteGenerator paletteGenerator;
+  Map<int, String> genreMap = {};
   String? selectedText;
   bool isLoading = true;
   double opacity = 1;
@@ -26,33 +27,27 @@ class HomeProvider extends ChangeNotifier {
         end: Alignment.topCenter,
       );
 
-  void filterByGenre() {
-    // Generate a list of genre IDs from 0 to 99
-    final genreIds = List.generate(100, (index) => index);
-
-    // Clear the previous category list
+  void filterByGenre(List<MovieModel> movies) {
     categoryLists.clear();
-
-    // Organize movies by genre
-    for (final genreId in genreIds) {
-      final filteredMovies = trendingMovies.where((movie) {
+    for (final genreId in genreMap.keys) {
+      final filteredMovies = movies.where((movie) {
         return movie.genreIds.contains(genreId);
       }).toList();
-
       if (filteredMovies.isNotEmpty) {
-        categoryLists[genreId.toString()] = filteredMovies;
+        categoryLists[genreMap[genreId]!] = filteredMovies;
       }
     }
   }
 
-  Future<void> loadMovies() async {
+  Future<void> initHomePage() async {
+    isLoading = true;
+    genreMap = await MovieModel.fetchGenresV2();
     trendingMovies = await MovieModel.fetchTrendingMovies();
-    popularMovies = await MovieModel.fetchPopularMovies();
-    if (trendingMovies.isNotEmpty) {
-      final details = await trendingMovies[0].fetchMediaDetails();
-      print(details.toJson());
+    for (var i = 1; i < 6; i++) {
+      final popularOnes = await MovieModel.fetchPopularMovies(page: i);
+      popularMovies.addAll(popularOnes);
     }
-    filterByGenre();
+    filterByGenre(popularMovies);
     await _generatePalette();
   }
 

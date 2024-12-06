@@ -12,6 +12,7 @@ import 'package:provider/provider.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+
   runApp(
     MultiProvider(
       providers: [
@@ -31,7 +32,7 @@ class MainApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: MyTheme.appTheme,
-      home: LoginView(),
+      home: const AuthWrapper(),
     );
   }
 }
@@ -43,8 +44,8 @@ class AuthWrapper extends StatelessWidget {
   Widget build(BuildContext context) {
     final user = context.watch<AuthProvider>().user;
 
-    if (user == null) {
-      return LoginView();
+    if (user == null && !(user?.emailVerified ?? false)) {
+      return const LoginView();
     } else {
       return const MainView();
     }

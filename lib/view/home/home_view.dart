@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:netflix_clone/core/provider/home_provider.dart';
 import 'package:netflix_clone/product/constants/locale_keys.dart';
 import 'package:netflix_clone/product/enums/media_enums.dart';
+import 'package:netflix_clone/product/widgets/home/action_buttons.dart';
 import 'package:netflix_clone/product/widgets/home/hero_section.dart';
 import 'package:netflix_clone/product/widgets/home/movie_category.dart';
-import 'package:netflix_clone/view/home/movie_detail_view.dart';
 
 import 'package:provider/provider.dart';
 
@@ -26,7 +26,7 @@ class _HomeViewState extends State<HomeView> {
 
     Future.microtask(() async {
       if (!mounted) return;
-      await context.read<HomeProvider>().loadMovies();
+      await context.read<HomeProvider>().initHomePage();
     });
   }
 
@@ -66,7 +66,7 @@ class _HomeViewState extends State<HomeView> {
               slivers: [
                 SliverAppBar(
                   floating: true,
-                  backgroundColor: Colors.black,
+                  backgroundColor: Colors.transparent,
                   flexibleSpace: Row(
                     children: [
                       if (provider.selectedText == null || isMediaType)
@@ -76,7 +76,7 @@ class _HomeViewState extends State<HomeView> {
                             onPressed: () {
                               Navigator.of(context).push(
                                 MaterialPageRoute<Widget>(
-                                  builder: (context) => MovieDetailView(mediaType: type),
+                                  builder: (context) => Container(),
                                 ),
                               );
                             },
@@ -130,7 +130,6 @@ class _HomeViewState extends State<HomeView> {
         onPressed: onPressed,
         label: child,
         shape: const CircleBorder(side: BorderSide(color: Colors.white)),
-        backgroundColor: Colors.transparent,
       ),
     );
   }
@@ -146,21 +145,9 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
         'assets/images/logo.png',
         height: 30,
       ),
-      actions: [
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.file_download_outlined,
-            color: Colors.white,
-          ),
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: const Icon(
-            Icons.search,
-            color: Colors.white,
-          ),
-        ),
+      actions: const [
+        DownloadButton(),
+        SearchButton(),
       ],
     );
   }

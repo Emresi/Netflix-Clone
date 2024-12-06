@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:netflix_clone/view/home/home_view.dart';
+import 'package:netflix_clone/view/profile/profile_view.dart';
 
 class MainView extends StatefulWidget {
   const MainView({super.key});
@@ -18,6 +20,15 @@ class _MainViewState extends State<MainView> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitDown,
+      DeviceOrientation.portraitUp,
+    ]);
+  }
+
+  @override
   Widget build(BuildContext context) {
     const _pages = [
       HomeView(),
@@ -31,11 +42,7 @@ class _MainViewState extends State<MainView> {
           child: Text('New and Popular'),
         ),
       ),
-      Scaffold(
-        body: Center(
-          child: Text('Profile'),
-        ),
-      ),
+      ProfileView(),
     ];
     return Scaffold(
       body: IndexedStack(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:netflix_clone/product/constants/locale_keys.dart';
 
 class MyTheme {
   const MyTheme._();
@@ -6,7 +7,14 @@ class MyTheme {
     brightness: Brightness.dark,
     primaryColor: Colors.redAccent,
     scaffoldBackgroundColor: Colors.black,
+    appBarTheme: const AppBarTheme(backgroundColor: Colors.black),
     textTheme: const TextTheme(
+      headlineSmall: TextStyle(
+        fontSize: 33,
+        fontWeight: FontWeight.w500,
+        color: Colors.white,
+        fontFamily: LocaleKeys.kFontFam,
+      ),
       displayLarge: TextStyle(fontFamily: 'BebasNeue', fontSize: 32, color: Colors.white),
       displayMedium: TextStyle(fontFamily: 'BebasNeue', fontSize: 24, color: Colors.white),
       bodyLarge: TextStyle(fontSize: 16, color: Colors.white),
@@ -22,6 +30,7 @@ class MyTheme {
       contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       hintStyle: const TextStyle(color: Colors.grey),
     ),
+    progressIndicatorTheme: const ProgressIndicatorThemeData(color: Colors.red),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.redAccent,

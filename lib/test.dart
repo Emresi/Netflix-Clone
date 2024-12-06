@@ -1,8 +1,3 @@
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:netflix_clone/core/global/global.dart';
-import 'package:netflix_clone/product/keys/api_key.dart';
-import 'package:netflix_clone/product/models/movie_model.dart';
 
 /// Fetches and tests the details of a movie by query
 // Future<void> testMovieDetails(String query) async {
